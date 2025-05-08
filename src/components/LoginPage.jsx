@@ -11,6 +11,8 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/UserContext';
 import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
+import { API_BASE_URL, USER } from '../configs/host-config';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -25,6 +27,17 @@ const LoginPage = () => {
       password,
     };
 
+    try {
+      const res = await axios.post(`${API_BASE_URL}${USER}/doLogin`, loginData);
+      alert('로그인 성공!');
+      onLogin(res.data.result);
+      navigate('/');
+    } catch (e) {
+      console.log(e); // 백엔드 데이터: e.response.data
+      alert('로그인 실패입니다. 아이디 또는 비밀번호를 확인하세요!');
+    }
+
+    /*
     const res = await fetch('http://localhost:8181/user/doLogin', {
       method: 'POST',
       headers: {
@@ -42,6 +55,7 @@ const LoginPage = () => {
     } else {
       alert('로그인 실패입니다. 아이디 또는 비밀번호를 확인하세요!');
     }
+    */
   };
 
   return (
@@ -98,8 +112,8 @@ const LoginPage = () => {
 
       {/* 비밀번호 변경 모달 */}
       {/* <Dialog open={resetPassword} onClose={() => setResetPassword(false)}>
-            <ResetPasswordModal handleClose={() => setResetPassword(false)} />
-          </Dialog> */}
+          <ResetPasswordModal handleClose={() => setResetPassword(false)} />
+        </Dialog> */}
     </Grid>
   );
 };
