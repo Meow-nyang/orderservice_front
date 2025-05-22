@@ -10,7 +10,7 @@ import {
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/UserContext';
-import { API_BASE_URL } from '../configs/host-config';
+import { API_BASE_URL, USER } from '../configs/host-config';
 
 const MemberCreate = () => {
   const [name, setName] = useState('');
